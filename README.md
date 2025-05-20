@@ -1,1 +1,89 @@
-# ESP32 Integration Calculator\n\nA calculator built on the ESP32 microcontroller with a physical keypad and LCD display, capable of performing mathematical calculations, specifically focusing on integration using an external API.\n\n## Features\n\n*   **Physical Interface:** Input via a 4x4 matrix keypad and output on a 16x2 LCD screen.\n*   **WiFi Connectivity:** Connects to your local WiFi network to access online API services.\n*   **Integration Calculation:** Sends mathematical expressions to the Derivative API (https://newton.vercel.app) for integration.\n*   **Shift Functionality:** Access additional mathematical functions (trigonometric, logarithmic, etc.) via a shift key.\n*   **Mode Switching:** Cycle through different function modes (Normal, Trig, Hyperbolic, Inverse, Log).\n*   **Scrolling Display:** Navigate through long input expressions and results using dedicated scroll buttons.\n*   **Basic Operations:** Includes standard calculator operations (+, -, \*, /) via extra buttons.\n\n## Hardware Requirements\n\n*   ESP32 Development Board (30-pin version used in development)\n*   4x4 Matrix Keypad\n*   16x2 LCD Display (with I2C adapter preferred for simpler wiring)\n*   2 x Momentary Push Buttons (for scrolling)\n*   Connecting Wires\n*   Breadboard (optional, for prototyping)\n\n## Wiring\n\nConnect the components to your ESP32 board according to your setup. The current code is configured for the following pins:\n\n*   **LCD:** Configured with pins 15, 2, 21, 19, 18, 5 (adjust if using an I2C adapter or different pins)\n*   **Keypad:**\n    *   Row Pins: 13, 12, 14, 27\n    *   Column Pins: 26, 25, 33, 32\n*   **Extra Operation Buttons (+, -, \*, /):** 22, 23, 16, 17\n*   **Scroll Buttons (Left, Right):** GPIO 4, GPIO 35 (Connect one side to the GPIO pin and the other side to GND. Internal pull-up resistors are used.)\n\n**Note:** Verify the pin numbers based on your specific ESP32 board and component wiring.\n\n## Software Requirements\n\n*   Arduino IDE\n*   ESP32 Board Support Package (via Arduino Boards Manager)\n*   Required Libraries (Install via Arduino Library Manager or manually):\n    *   `WiFi.h`\n    *   `HTTPClient.h`\n    *   `LiquidCrystal.h` (or `LiquidCrystal_I2C` if using an I2C adapter)\n    *   `Keypad.h`\n\n## Setup\n\n1.  Clone this repository to your local machine.\n2.  Open the `esp32.ino` file in the Arduino IDE.\n3.  Install the required libraries listed above.\n4.  Update your WiFi credentials in the `esp32.ino` file:\n    ```cpp\n    const char* ssid = \"YOUR_WIFI_SSID\";\n    const char* password = \"YOUR_WIFI_PASSWORD\";\n    ```\n5.  Connect your ESP32 board to your computer.\n6.  Select the correct board and port in the Arduino IDE.\n7.  Upload the code to your ESP32.\n\n## Usage\n\n1.  After uploading the code and connecting to WiFi, the calculator is ready.\n2.  Use the keypad to enter mathematical expressions.\n3.  Press the 'S' key for shifted functions (Trig, Log, etc.). Press 'S' again to exit shift mode.\n4.  Press the 'M' key to cycle through function modes when in shift mode.\n5.  Press the '=' key to calculate the integral of the current expression using the online API.\n6.  Use the 'D' key to delete the last character (or 'AC' when shifted).\n7.  Use the dedicated scroll buttons (GPIO 4 and 35) to move the view left and right on the LCD for long expressions and results.\n\n## API\n\nThis project uses the public [Derivative API](https://newton.vercel.app) to perform integration calculations. No API key is required.\n\n## Contributing\n\nIf you'd like to contribute to this project, feel free to fork the repository and submit a pull request.\n\n## License\n\nThis project is licensed under the [MIT License](LICENSE).\n\n 
+# ESP32 Integration Calculator
+
+A calculator built on the ESP32 microcontroller with a physical keypad and LCD display, capable of performing mathematical calculations, specifically focusing on integration using an external API.
+
+## 🔧 Features
+
+- **Physical Interface:** Input via a 4x4 matrix keypad and output on a 16x2 LCD screen.
+- **WiFi Connectivity:** Connects to your local WiFi network to access online API services.
+- **Integration Calculation:** Sends mathematical expressions to the Derivative API ([https://newton.vercel.app](https://newton.vercel.app)) for integration.
+- **Shift Functionality:** Access additional mathematical functions (trigonometric, logarithmic, etc.) via a shift key.
+- **Mode Switching:** Cycle through different function modes (Normal, Trig, Hyperbolic, Inverse, Log).
+- **Scrolling Display:** Navigate through long input expressions and results using dedicated scroll buttons.
+- **Basic Operations:** Includes standard calculator operations (+, -, *, /) via extra buttons.
+
+## 🧰 Hardware Requirements
+
+- ESP32 Development Board (30-pin version used in development)
+- 4x4 Matrix Keypad
+- 16x2 LCD Display (with I2C adapter preferred)
+- 2 x Momentary Push Buttons (for scrolling)
+- 4 x Push Buttons for extra operations (+, -, *, /)
+- Connecting Wires
+- Breadboard (optional)
+
+## 📌 Pin Configuration
+
+### LCD (Parallel Connection in Code)
+
+| LCD Pin | ESP32 GPIO |
+|---------|------------|
+| RS      | 15         |
+| E       | 2          |
+| D4      | 21         |
+| D5      | 19         |
+| D6      | 18         |
+| D7      | 5          |
+
+> If you’re using an I2C LCD instead, replace with `LiquidCrystal_I2C` and connect SDA/SCL accordingly.
+
+### Keypad (4x4 Matrix)
+
+| Keypad Pin | ESP32 GPIO |
+|------------|------------|
+| R1         | 13         |
+| R2         | 12         |
+| R3         | 14         |
+| R4         | 27         |
+| C1         | 26         |
+| C2         | 25         |
+| C3         | 33         |
+| C4         | 32         |
+
+### Extra Operation Buttons
+
+| Operation | ESP32 GPIO |
+|-----------|------------|
+| '+'       | 22         |
+| '-'       | 23         |
+| '*'       | 16         |
+| '/'       | 17         |
+
+### Scroll Buttons
+
+| Function | ESP32 GPIO |
+|----------|------------|
+| Left     | 4          |
+| Right    | 35         |
+
+> Scroll buttons use internal pull-ups; connect one side to the GPIO and the other to GND.
+
+## 💻 Software Requirements
+
+- Arduino IDE
+- ESP32 Board Package (via Board Manager)
+- Required Libraries:
+  - `WiFi.h`
+  - `HTTPClient.h`
+  - `LiquidCrystal.h` (or `LiquidCrystal_I2C.h`)
+  - `Keypad.h`
+
+## 🚀 Getting Started
+
+1. Clone this repository.
+2. Open `esp32.ino` in Arduino IDE.
+3. Install required libraries.
+4. Update your WiFi credentials:
+   ```cpp
+   const char* ssid = "YOUR_WIFI_SSID";
+   const char* password = "YOUR_WIFI_PASSWORD";

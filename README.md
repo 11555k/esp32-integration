@@ -12,6 +12,8 @@ A calculator built on the ESP32 microcontroller with a physical keypad and LCD d
 - **Scrolling Display:** Navigate through long input expressions and results using dedicated scroll buttons.
 - **Basic Operations:** Includes standard calculator operations (+, -, *, /) via extra buttons.
 
+![WhatsApp Image 2025-05-21 at 00 41 48_1ea3e302](https://github.com/user-attachments/assets/4408e119-05b5-4643-9b9b-6e2247a6ef35)
+
 ## 🧰 Hardware Requirements
 
 - ESP32 Development Board (30-pin version used in development)
